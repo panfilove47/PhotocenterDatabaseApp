@@ -32,24 +32,6 @@ namespace DatabasePhotocenter
             MyConn.Close();
         }
 
-        private void fillTableInRequest(string querry) // Метод для отправки запроса и заполнения таблицы. (Без изменений)
-        {
-            try
-            {
-                adapter = new MySqlDataAdapter(querry, connect); // Предоставляет выборку из запроса.
-                DataTable table = new DataTable(); // Временная таблица для заполнения нашей.
-                adapter.Fill(table); // Заполнение временной таблицы.
-                bindingSource = new BindingSource();
-                bindingSource.DataSource = table;
-                dataGridView1.DataSource = bindingSource; // Перенесение временной таблицы в основную.
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message.ToString());
-            }
-
-        }
         private void fillTableWithChanges(string querry)
         {
             try
@@ -122,6 +104,45 @@ namespace DatabasePhotocenter
         private void supplierButton_Click(object sender, EventArgs e)
         {
             fillTableWithChanges("select * from supplier");
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы действительно хотите сохранить изменения?", "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    adapter.Update(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы действительно хотите удалить запись?", "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
+                    adapter.Update(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e) // Открыть форму, для показа заданий
+        {
+            TasksForm tasksForm = new TasksForm();
+            tasksForm.Owner = this;
+            tasksForm.Show();
+            this.Hide();
         }
     }
 }
