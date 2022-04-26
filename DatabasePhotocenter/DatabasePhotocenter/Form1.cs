@@ -17,7 +17,6 @@ namespace DatabasePhotocenter
         public MySqlConnection MyConn; // Коннектор к БД
         public MySqlCommand MyComm; // Для отправки запроса
         public MySqlDataAdapter adapter; // Предоставляет выборку из запроса.
-        private BindingSource bindingSource;
         DataTable dt;
 
         public Form1()
