@@ -15,7 +15,7 @@ namespace DatabasePhotocenter
     {
         string connect = "Server=localhost;Database=PhotocenterDB;Uid=root;password=Vbifcfif;charset=utf8";
         public MySqlConnection MyConn; // Коннектор к БД
-        public MySqlCommand MyComm; // Для отправки запроса
+        public MySqlCommand cmd; // Для отправки запроса
         public MySqlDataAdapter adapter; // Предоставляет выборку из запроса.
         private BindingSource bindingSource;
         public TasksForm()
@@ -138,6 +138,173 @@ namespace DatabasePhotocenter
                     fillTableInRequest($"select idOrder, OrderType, PhotoCount, `Format`, PaperType, `Date`, PaidDevelopment, Urgency, Price, idFilial, idKiosk, (select sum(Price) from `order` o2 where o2.OrderType = 'Печать и проявка' and o2.Urgency = 'Несрочный' and `Date` between '{dateTimePicker6.Value.ToString("yyyyMMdd")}' and '{dateTimePicker5.Value.ToString("yyyyMMdd")}') as `Amount of proceeds` from filial f, kiosk k, `order` o where filial_idfilial = idfilial and Kiosk_Filial_idFilial = idFilial and OrderType = 'Печать и проявка' and Urgency = 'Несрочный' and `Date` between '{dateTimePicker6.Value.ToString("yyyyMMdd")}' and '{dateTimePicker5.Value.ToString("yyyyMMdd")}';");
                 }
             }
+        }
+
+        private void task5Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (radioButton11.Checked)
+                {
+                    if (radioButton13.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idPhotocenter = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                    else if (radioButton14.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idFilial = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                    else if (radioButton15.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idKiosk = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                }
+                else if (radioButton12.Checked)
+                {
+                    if (radioButton13.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idPhotocenter = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                    else if (radioButton14.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idFilial = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                    else if (radioButton15.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idKiosk = {int.Parse(textBox1.Text)} and `Date` between '{dateTimePicker8.Value.ToString("yyyyMMdd")}' and '{dateTimePicker7.Value.ToString("yyyyMMdd")}' and OrderType in ('Печать', 'Печать и проявка');");
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Введите id в текстовое поле");
+            }
+        }
+
+        private void task6Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (radioButton19.Checked)
+                {
+                    if (radioButton16.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idPhotocenter = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                    else if (radioButton18.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idFilial = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                    else if (radioButton17.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Срочный' and idKiosk = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                }
+                else if (radioButton20.Checked)
+                {
+                    if (radioButton16.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idPhotocenter = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                    else if (radioButton18.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idFilial = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                    else if (radioButton17.Checked)
+                    {
+                        fillTableInRequest($"select sum(PhotoCount) as `Photo count` from `order` left join kiosk on kiosk_idKiosk = idKiosk left join filial on filial_idfilial = idfilial left join photocenter on photocenter_idphotocenter = idphotocenter where Urgency = 'Несрочный' and idKiosk = {int.Parse(textBox2.Text)} and `Date` between '{dateTimePicker10.Value.ToString("yyyyMMdd")}' and '{dateTimePicker9.Value.ToString("yyyyMMdd")}' and OrderType in ('Проявка', 'Печать и проявка');");
+                    }
+                }
+            }
+            catch
+            {
+
+                MessageBox.Show("Введите id в текстовое поле");
+            }
+        }
+
+        private void task7_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select * from supplier");
+        }
+
+        private void task7_2Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                fillTableInRequest($"select idSupplier, sl.Name, Adress, Sells, Count, `Date` from supplier sl left join suplpy sp" +
+                    $" on supplier_idsupplier = idsupplier where `date`" +
+                    $" between '{dateTimePicker11.Value.ToString("yyyyMMdd")}' and '{dateTimePicker12.Value.ToString("yyyyMMdd")}'" +
+                    $" and `Count` <= {int.Parse(textBox4.Text)} and Sells = '{textBox3.Text}'");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void task8_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select * from client");
+        }
+
+        private void task8_2Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest($"select idClient, FIO, `Status`, DiscountCard, idOrder from `client` left join `order` on client_idclient = idclient where DiscountCard = 1 and Kiosk_Filial_idFilial = {textBox5.Text} and PhotoCount <= {textBox6.Text} ");
+        }
+
+        private void task9_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select sum(Price) as Proceeds from salegoods;");
+        }
+
+        private void task9_2Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest($"select sum(Price) as Proceeds from salegoods where Kiosk_Filial_idFilial = {int.Parse(textBox7.Text)} and `Date` between '{dateTimePicker13.Value.ToString("yyyyMMdd")}' and '{dateTimePicker14.Value.ToString("yyyyMMdd")}';");
+        }
+
+        private void task10_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select idSaleGoods, Kiosk_Filial_idFilial as `idFilial`, ProductName, s.Count, Price, s.`Date`, sp.Sells as `Company` from salegoods s left join suplpy on Kiosk_Filial_idFilial = Filial_idFilial left join supplier sp on idsupplier = supplier_idsupplier where s.`Count` >= 10;");
+        }
+
+        private void task10_2Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest($"select idSaleGoods, Kiosk_Filial_idFilial as `idFilial`, ProductName, s.Count, Price, s.`Date`, sp.Sells as `Company` from salegoods s left join suplpy on Kiosk_Filial_idFilial = Filial_idFilial left join supplier sp on idsupplier = supplier_idsupplier where s.`Count` >= 10 and Kiosk_Filial_idFilial = {int.Parse(textBox8.Text)};");
+        }
+
+        private void task11_2Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest($"select ProductName, sum(`Count`) as `Volume of sales` from salegoods where Kiosk_Filial_idFilial = {int.Parse(textBox9.Text)} and `Date` between '{dateTimePicker15.Value.ToString("yyyyMMdd")}' and '{dateTimePicker16.Value.ToString("yyyyMMdd")}' group by ProductName;");
+        }
+
+        private void task11_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select ProductName, sum(`Count`) as `Volume of sales` from salegoods group by ProductName;");
+        }
+
+        private void task12_1Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest("select * from position");
+        }
+
+        private void TasksForm_Load(object sender, EventArgs e)
+        {
+            cmd = new MySqlCommand("select distinct Name from position", MyConn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    comboBox1.Items.Add(reader.GetValue(0));
+                }
+            }
+            reader.Close();
+        }
+
+        private void task12_2Button_Click(object sender, EventArgs e)
+        {
+            fillTableInRequest($"select * from position where name = '{comboBox1.SelectedItem}'");
         }
     }
 }
